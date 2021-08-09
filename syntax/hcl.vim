@@ -35,14 +35,16 @@ syn keyword hclConstant true false null
 syn region hclInterpolation start=/\${/ end=/}/ contained contains=hclInterpolation
 
 syn region hclComment start=/\/\// end=/$/    contains=hclTodo
-syn region hclComment start=/\#/   end=/$/    contains=hclTodo
-syn region hclComment start=/\/\*/ end=/\*\// contains=hclTodo
+syn region hclComment start=/\/\*/ end=/\*\// contains=hclTodo fold
+" Line comments. The skip= groups a block of # comments in one fold.
+syn region hclComment start=/#/ skip=/\n\s*#/  end=/$/ contains=hclTodo fold
+
 
 syn match hclAttributeName /\w\+/ contained
 syn match hclAttribute     /^[^=]\+=/ contains=hclAttributeName,hclComment,hclString
 
 syn match hclBlockName /\w\+/ contained
-syn match hclBlock     /^[^=]\+{/ contains=hclBlockName,hclComment,hclString
+syn region hclBlock start="{" end="}" fold transparent contains=ALL
 
 syn keyword hclTodo TODO FIXME XXX DEBUG NOTE contained
 
